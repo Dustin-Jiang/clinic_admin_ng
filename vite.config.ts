@@ -22,10 +22,19 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      // '/api': {
+      //   target: 'https://clinic.bitnp.net/api',
+      //   changeOrigin: true,
+      //   rewrite: (path) => path.replace(/^\/api/, '')
+      // }
       '/api': {
-        target: 'https://clinic.bitnp.net/api',
+        target: 'https://clinic.bitnp.net',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        configure: (proxy) => {
+          proxy.on("proxyReq", (proxyReq) => {
+            proxyReq.setHeader("origin", "https://clinic.bitnp.net")
+          })
+        }
       }
     }
   }

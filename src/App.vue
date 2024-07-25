@@ -1,6 +1,6 @@
 <template>
   <n-config-provider :theme="theme">
-    <HeaderBar title="BITNP电脑诊所">
+    <HeaderBar title="BITNP 电脑诊所">
       <n-message-provider>
         <MainView>
           <RouterView />

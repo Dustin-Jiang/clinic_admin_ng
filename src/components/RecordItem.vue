@@ -14,7 +14,7 @@
     <template #action>
       <n-space>
         <StatusBadge :status="props.data?.status!" />
-        <StatusBadge status="default" :text="props.data?.campus" />
+        <StatusBadge status="default" :text="props.data?.campus" @click.stop="filterCampus"/>
       </n-space>
     </template>
   </n-thing>
@@ -25,6 +25,7 @@ import type API from '@/store/api';
 import type { PropType } from 'vue';
 import StatusBadge from "@/components/StatusBadge.vue"
 import { RecordStatus } from '@/utils/constants';
+import store from '@/store';
 
 import AccessTimeFilledFilled from "@vicons/material/AccessTimeFilledFilled"
 import AccessTimeOutline from "@vicons/material/AccessTimeOutlined"
@@ -48,7 +49,7 @@ const StatusAvatar = () => {
   ) return <AccessTimeOutline />
 
   if (
-    status === RecordStatus.APPOINTMENT_COMFIRMED
+    status === RecordStatus.APPOINTMENT_CONFIRMED
   ) return <AccessTimeFilledFilled />
 
   if (
@@ -74,5 +75,16 @@ const StatusAvatar = () => {
   if (
     status === RecordStatus.RESOLVING
   ) return <HandyManFilled />
+}
+
+const filterCampus = () => {
+  const filters = store.filters
+
+  filters['campus'] = [{
+    value: props.data?.campus!,
+    filter: (ele) => ele.campus === props.data?.campus
+  }]
+  // eslint-disable-next-line no-self-assign
+  store.filters = filters
 }
 </script>

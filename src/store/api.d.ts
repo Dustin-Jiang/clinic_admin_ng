@@ -2,7 +2,7 @@
 namespace API {
   type Url = string
   type DateString = `${number}-${number}-${number}`
-  type TimeString = `${number}-${number}-${number}T${string}+${string}`
+  type TimeString = string
   type Password = string
 
   // /api/campus/
@@ -67,12 +67,12 @@ namespace API {
     password: Password
 
     appointment_time: DateString
-    arrive_time: TimeString
+    arrive_time: TimeString | null
     deal_time: unknown
 
     worker_description: string
     method: unknown
-    reject_reason: string
+    reject_reason: string | null
 
     is_taken: boolean
 
@@ -85,6 +85,12 @@ namespace API {
     next: Url
     previous: Url
     results: Record[]
+  }
+
+  type RecordDesc = {
+    label: string,
+    value: string,
+    children?: RecordDesc[]
   }
 }
 

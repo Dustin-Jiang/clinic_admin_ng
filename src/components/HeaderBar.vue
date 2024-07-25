@@ -79,7 +79,6 @@
 <script setup lang="ts">
 import MenuFilled from "@vicons/material/MenuFilled"
 import store from '@/store';
-import { defineProps } from "vue"
 import Auth from "@/utils/Auth"
 import FlexAside from "@/components/FlexAside.vue"
 import { useRouter } from "vue-router"

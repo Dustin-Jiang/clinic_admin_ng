@@ -1,15 +1,12 @@
 <template>
-  <n-drawer v-model:show="store.isDrawerOpen"
-    placement="left"
-    :show-mask="isShrink"
-    :trap-focus="false"
-    :mask-closable="isShrink"
-    :z-index="100"
-    width="320px"
-    style="overflow: hidden"
-  >
-    <SideBarContent />
-  </n-drawer>
+  <KeepAlive>
+    <n-drawer v-model:show="store.isDrawerOpen" placement="left" :show-mask="isShrink" :trap-focus="false"
+      :mask-closable="isShrink" :z-index="100" width="320px">
+      <KeepAlive>
+        <SideBarContent />
+      </KeepAlive>
+    </n-drawer>
+  </KeepAlive>
 </template>
 
 <script setup lang="ts">
