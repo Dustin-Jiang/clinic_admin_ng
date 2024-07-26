@@ -24,6 +24,6 @@ const theme = ref<typeof darkTheme | typeof lightTheme>(isDark.value === "dark" 
 watch(isDark, (val) => {
   console.debug(val)
   console.debug(theme)
-  theme.value = val ? darkTheme : lightTheme;
+  theme.value = isDark.value === "dark" ? darkTheme : lightTheme;
 })
 </script>
