@@ -27,6 +27,7 @@ const load = async () => {
   const campus = (await Api.get<API.Campus[]>('/api/campus/')).data
   store.campusList = campus
 
+  console.debug("storeLoad: ", repairMethods)
   store.repairMethods = repairMethods
 
   store.probDescs = probDescs

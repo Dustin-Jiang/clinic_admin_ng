@@ -57,7 +57,7 @@
         <n-button type="primary" style="width: 150px"
           :disabled="loading !== null || !repairComment.validate"
           :loading="loading === 'resolve'"
-          @click="() => console.debug('solve: ', repairComment.validate)">
+          @click="() => handleAppointmentComplete(record!)">
           <template #icon>
             <DoneFilled />
           </template>
@@ -94,11 +94,13 @@ const rejectReason = ref("")
 const loading = ref<null | "arrive" | "whereRU" | "changeCampus" | "resolve">(null)
 const repairComment = ref({
   validate: false,
-  value: ""
+  value: "",
+  display: ""
 })
 const probDescs = ref({
   validate: false,
-  value: ""
+  value: "",
+  display: ""
 })
 
 const campusList = computed(() => store.campusList.map((campus) => ({
@@ -181,6 +183,23 @@ const handleAppointmentChangeCampus = (campus: API.Campus["name"], record: API.R
     ...updated!,
     campus,
     worker: Auth.user.value!.url
+  }
+  updateRecord(updated)
+}
+
+const handleAppointmentComplete = (record: API.Record) => {
+  console.debug('solve: ', repairComment.value.validate && probDescs.value.validate)
+  console.debug('solve:', repairComment.value.value, ", ", repairComment.value.display)
+  console.debug('solve:', probDescs.value.value, ", ", probDescs.value.display)
+  loading.value = 'resolve'
+  let updated = toRaw(record!)
+  updated = {
+    ...updated!,
+    worker: Auth.user.value!.url,
+    status: RecordStatus.RESOLVED,
+    worker_description: probDescs.value.display,
+    method: repairComment.value.display,
+    deal_time: (new Date()).toISOString()
   }
   updateRecord(updated)
 }

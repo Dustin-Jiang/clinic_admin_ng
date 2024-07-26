@@ -1,7 +1,8 @@
 <template>
   <n-form :rules="rules" :model="model" ref="formRef">
     <n-form-item :label="label" path="selection">
-      <n-cascader multiple clearable filterable check-strategy="child" expand-trigger="hover" :show-path="true"
+      <n-cascader multiple clearable filterable check-strategy="child"
+        expand-trigger="hover" :show-path="true"
         :options="options" placeholder="可多选, 输入以筛选" v-model:value="model.selection"
         :filter="(pattern: string, option: CascaderOption, path: CascaderOption[]) => 
           optionFilter(pattern, option, path)" />
@@ -15,10 +16,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from "vue"
+import { ref, watch, computed, onMounted } from "vue"
 import type { FormItemRule, NForm } from "naive-ui"
+import type API from "@/store/api"
 
 const result = defineModel<IRepairComment>("value")
+const labels = new Map<string, string>()
 
 const props = defineProps<{
   label: string,
@@ -35,6 +38,22 @@ const model = ref<{
 
 const formRef = ref<typeof NForm | null>(null)
 
+onMounted(() => {
+  setLabels(props.options)
+  console.debug("labels: ", labels)
+})
+
+const setLabels = (options: API.RecordDesc[], prefix: string = "") => {
+  options.forEach((v) => {
+    if (v.children) {
+      setLabels(v.children, `${prefix}${v.label} / `)
+    }
+    else {
+      labels.set(v.value, prefix + v.label)
+    }
+  })
+}
+
 watch(() => model.value.selection, () => {
   console.debug("selection: ", model.value.selection)
   console.debug("selection: ", model.value.selection.includes("other"))
@@ -45,9 +64,14 @@ const isOtherSelected = computed(() => {
   return model.value.selection.includes("other")
 })
 
-const comment = computed(() => model.value.selection.map((v) => {
+const commentRaw = computed(() => model.value.selection.map((v) => {
   if (v == "other") return model.value.detail
   else return v;
+}))
+
+const commentDisplay = computed(() => model.value.selection.map((v) => {
+  if (v == "other") return model.value.detail
+  else return labels.get(v);
 }))
 
 const validate = computed(() => {
@@ -57,8 +81,9 @@ const validate = computed(() => {
   return model.value.selection.length > 0
 })
 
-watch(comment, () => {
-  result.value!.value = comment.value.join(", ")
+watch(commentRaw, () => {
+  result.value!.value = commentRaw.value.join(", ")
+  result.value!.display = commentDisplay.value.join(", ")
   result.value!.validate = validate.value
   console.debug("comment: ", result.value)
 })
@@ -82,7 +107,8 @@ const rules = {
 
 interface IRepairComment {
   validate: boolean,
-  value: string
+  value: string,
+  display: string
 }
 
 type CascaderOption = {
