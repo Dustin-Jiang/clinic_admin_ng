@@ -2,7 +2,7 @@
   <n-form :rules="rules" :model="model" ref="formRef">
     <n-form-item :label="label" path="selection">
       <n-cascader multiple clearable filterable check-strategy="child"
-        expand-trigger="hover" :show-path="true"
+        expand-trigger="hover" :show-path="true" :cascade="false"
         :options="options" placeholder="可多选, 输入以筛选" v-model:value="model.selection"
         :filter="(pattern: string, option: CascaderOption, path: CascaderOption[]) => 
           optionFilter(pattern, option, path)" />

@@ -22,11 +22,6 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      // '/api': {
-      //   target: 'https://clinic.bitnp.net/api',
-      //   changeOrigin: true,
-      //   rewrite: (path) => path.replace(/^\/api/, '')
-      // }
       '/api': {
         target: 'https://clinic.bitnp.net',
         changeOrigin: true,
@@ -36,6 +31,15 @@ export default defineConfig({
           })
         }
       }
+      // '/api': {
+      //   target: 'http://127.0.0.1:5000',
+      //   changeOrigin: true,
+      //   configure: (proxy) => {
+      //     proxy.on("proxyReq", (proxyReq) => {
+      //       proxyReq.setHeader("origin", "http://127.0.0.1:5000")
+      //     })
+      //   }
+      // }
     }
   }
 })
