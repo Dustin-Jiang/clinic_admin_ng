@@ -34,7 +34,7 @@ import FactoryFilled from '@vicons/material/FactoryFilled';
 import DoneFilled from '@vicons/material/DoneFilled';
 import CalendarMonthFilled from '@vicons/material/CalendarMonthFilled';
 import PersonOffFilled from '@vicons/material/PersonOffFilled';
-import HandyManFilled from '@vicons/material/HandyManFilled';
+import HandymanFilled from '@vicons/material/HandymanFilled';
 
 const props = defineProps({
   data: Object as PropType<API.Record>
@@ -74,7 +74,7 @@ const StatusAvatar = () => {
 
   if (
     status === RecordStatus.RESOLVING
-  ) return <HandyManFilled />
+  ) return <HandymanFilled />
 }
 
 const filterCampus = () => {
