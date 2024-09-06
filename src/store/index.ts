@@ -19,6 +19,7 @@ const store = reactive({
   campusList: [] as API.Campus[],
   repairMethods: [] as API.RecordDesc[],
   probDescs: [] as API.RecordDesc[],
+  history: new Map<API.Record['id'], API.Record[]>()
 })
 
 const load = async () => {

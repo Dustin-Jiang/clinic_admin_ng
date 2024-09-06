@@ -51,13 +51,11 @@
     <n-space vertical v-if="
       record?.status === RecordStatus.RESOLVING
     ">
-      <RepairComment v-model:value="probDescs" label="问题描述" :options="store.probDescs"/>
-      <RepairComment v-model:value="repairComment" label="处理方式" :options="store.repairMethods"/>
+      <RepairComment v-model:value="probDescs" label="问题描述" :options="store.probDescs" />
+      <RepairComment v-model:value="repairComment" label="处理方式" :options="store.repairMethods" />
       <n-space>
-        <n-button type="primary" style="width: 150px"
-          :disabled="loading !== null || !repairComment.validate"
-          :loading="loading === 'resolve'"
-          @click="() => handleAppointmentComplete(record!)">
+        <n-button type="primary" style="width: 150px" :disabled="loading !== null || !repairComment.validate"
+          :loading="loading === 'resolve'" @click="() => handleAppointmentComplete(record!)">
           <template #icon>
             <DoneFilled />
           </template>
@@ -66,6 +64,17 @@
         <ChangeCampus :record="record" :loading="loading" :campusList="campusList"
           :handleCommit="handleAppointmentChangeCampus" />
       </n-space>
+    </n-space>
+
+    <n-space>
+      <n-collapse-transition :show="store.history.get(record?.id!)?.length ?? 0 !== 0">
+        <n-button style="width: 150px" @click="() => revertRecord(record?.id!)">
+          <template #icon>
+            <HistoryFilled />
+          </template>
+          后悔药
+        </n-button>
+      </n-collapse-transition>
     </n-space>
   </n-space>
 </template>
@@ -78,6 +87,7 @@ import Auth from '@/utils/Auth';
 import { RecordStatus } from '@/utils/constants';
 import DoneFilled from "@vicons/material/DoneFilled";
 import PersonOffFilled from "@vicons/material/PersonOffFilled";
+import HistoryFilled from "@vicons/material/HistoryFilled";
 import { useMessage } from 'naive-ui';
 import { computed, onUpdated, ref, toRaw } from 'vue';
 
@@ -145,7 +155,7 @@ const handleAppointmentArrive = (record: API.Record) => {
     worker: Auth.user.value!.url,
     arrive_time: (new Date()).toISOString()
   }
-  updateRecord(updated)
+  updateRecord(updated, record)
 }
 
 const handleAppointmentMissing = (record: API.Record) => {
@@ -156,7 +166,7 @@ const handleAppointmentMissing = (record: API.Record) => {
     status: RecordStatus.WHERE_ARE_YOU,
     worker: Auth.user.value!.url
   }
-  updateRecord(updated)
+  updateRecord(updated, record)
 }
 
 const handleAppointmentConfirm = (record: API.Record) => {
@@ -173,7 +183,7 @@ const handleAppointmentConfirm = (record: API.Record) => {
     reject_reason: finished ? rejectReason.value : null,
     arrive_time: finished ? (new Date()).toISOString() : null
   }
-  updateRecord(updated)
+  updateRecord(updated, record)
 }
 
 const handleAppointmentChangeCampus = (campus: API.Campus["name"], record: API.Record) => {
@@ -184,7 +194,7 @@ const handleAppointmentChangeCampus = (campus: API.Campus["name"], record: API.R
     campus,
     worker: Auth.user.value!.url
   }
-  updateRecord(updated)
+  updateRecord(updated, record)
 }
 
 const handleAppointmentComplete = (record: API.Record) => {
@@ -201,16 +211,36 @@ const handleAppointmentComplete = (record: API.Record) => {
     method: repairComment.value.display,
     deal_time: (new Date()).toISOString()
   }
-  updateRecord(updated)
+  updateRecord(updated, record)
 }
 
-const updateRecord = async (updated: API.Record) => {
+const updateRecord = async (updated: API.Record, prev: API.Record) => {
+  store.history.set(prev.id, [
+    ...(store.history.get(prev.id) ?? []),
+    prev
+  ])
   update(updated).then(() => {
     message.success('提交成功咯!')
   }).catch(() => {
     message.error('提交出错了qwq')
   }).finally(() => {
     loading.value = null
+  })
+}
+
+const revertRecord = (id: number) => {
+  const history = store.history.get(id)
+  if (!history || history.length === 0)
+  {
+    message.error('时间不能倒流')
+    return
+  }
+  const last = history.pop()!
+  update(last).then(() => {
+    message.success('Yesterday once more! ')
+    store.records[id] = last
+  }).catch(() => {
+    message.error('时间机器坏了qwq')
   })
 }
 </script>
