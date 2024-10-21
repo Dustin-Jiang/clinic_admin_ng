@@ -17,6 +17,7 @@ const store = reactive({
     }[]
   },
   campusList: [] as API.Campus[],
+  dateList: [] as API.DateStatus[],
   repairMethods: [] as API.RecordDesc[],
   probDescs: [] as API.RecordDesc[],
   history: new Map<API.Record['id'], API.Record[]>()

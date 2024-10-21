@@ -14,6 +14,11 @@ const router = createRouter({
       name: "records",
       props: true,
       component: () => import("@/views/RecordView.vue")
+    },
+    {
+      path: '/schedule',
+      name: "schedule",
+      component: () => import("@/views/ScheduleView.vue")
     }
   ]
 })

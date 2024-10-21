@@ -24,7 +24,7 @@ class AuthBase {
   }
 
   async auth(): Promise<API.IUsers> {
-    return (await Api.get<API.IUsers>(`/api/user`)).data
+    return (await Api.get<API.IUsers>(`/api/user/`)).data
   }
 
   logout() {

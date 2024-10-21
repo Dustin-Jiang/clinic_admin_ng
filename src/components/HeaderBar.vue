@@ -3,13 +3,8 @@
     <FlexAside>
       <template #left>
         <n-space horizantal style="display: flex; align-items: center;">
-          <n-button
-            circle
-            secondary
-            @click="openDrawer"
-            style="--n-width: 48px; --n-height: 48px; --n-icon-size: 24px;"
-            :disabled="props.disabled"
-          >
+          <n-button circle quaternary @click="openDrawer"
+            style="--n-width: 48px; --n-height: 48px; --n-icon-size: 24px;" :disabled="props.disabled">
             <template #icon>
               <n-icon>
                 <menu-filled />
@@ -22,24 +17,39 @@
         </n-space>
       </template>
       <template #right v-if="!props.disabled">
-        <n-popover trigger="hover">
-          <template #trigger>
-            <n-popconfirm>
-              <template #trigger>
-                <n-button>
-                  {{ Auth.user.value?.username || "Who Are You?" }}
-                </n-button>
-              </template>
-              真的要退出登录吗?
-              <template #action>
-                <n-button size="small" @click="logout" type="primary">
-                  确认
-                </n-button>
-              </template>
-            </n-popconfirm>
-          </template>
-          <span>退出登录</span>
-        </n-popover>
+        <n-space :align="'center'">
+          <n-popover trigger="hover">
+            <template #trigger>
+              <n-button circle quaternary style="--n-width: 48px; --n-height: 48px; --n-icon-size: 24px;"
+                @click="router.push('/schedule')">
+                <template #icon>
+                  <n-icon>
+                    <EditCalendarFilled />
+                  </n-icon>
+                </template>
+              </n-button>
+            </template>
+            <span>编辑时间</span>
+          </n-popover>
+          <n-popover trigger="hover">
+            <template #trigger>
+              <n-popconfirm>
+                <template #trigger>
+                  <n-button>
+                    {{ Auth.user.value?.username || "Who Are You?" }}
+                  </n-button>
+                </template>
+                真的要退出登录吗?
+                <template #action>
+                  <n-button size="small" @click="logout" type="primary">
+                    确认
+                  </n-button>
+                </template>
+              </n-popconfirm>
+            </template>
+            <span>退出登录</span>
+          </n-popover>
+        </n-space>
       </template>
     </FlexAside>
   </n-element>
@@ -61,7 +71,8 @@
 
   box-shadow: var(--box-shadow-1);
 }
-.headerBar > div {
+
+.headerBar>div {
   display: flex;
   align-items: center;
 }
@@ -70,6 +81,7 @@
   .headerBar {
     background-color: var(--primary-color-hover);
   }
+
   .headerBar * {
     color: #fff !important;
   }
@@ -82,6 +94,7 @@ import store from '@/store';
 import Auth from "@/utils/Auth"
 import FlexAside from "@/components/FlexAside.vue"
 import { useRouter } from "vue-router"
+import EditCalendarFilled from "@vicons/material/EditCalendarFilled"
 
 const router = useRouter()
 
