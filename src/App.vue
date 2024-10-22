@@ -1,12 +1,14 @@
 <template>
   <n-config-provider :theme="theme">
-    <HeaderBar title="BITNP 电脑诊所">
-      <n-message-provider>
-        <MainView>
-          <RouterView />
-        </MainView>
-      </n-message-provider>
-    </HeaderBar>
+    <n-dialog-provider>
+      <HeaderBar title="BITNP 电脑诊所">
+        <n-message-provider>
+          <MainView>
+            <RouterView />
+          </MainView>
+        </n-message-provider>
+      </HeaderBar>
+    </n-dialog-provider>
   </n-config-provider>
 </template>
 

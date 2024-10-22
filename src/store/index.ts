@@ -29,6 +29,9 @@ const load = async () => {
   const campus = (await Api.get<API.Campus[]>('/api/campus/')).data
   store.campusList = campus
 
+  const dates = (await Api.get<API.DateStatus[]>('/api/date/')).data
+  store.dateList = dates
+
   console.debug("storeLoad: ", repairMethods)
   store.repairMethods = repairMethods
 

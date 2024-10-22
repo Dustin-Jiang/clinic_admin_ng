@@ -25,8 +25,17 @@ namespace API {
     title: string
     date: DateString
     capacity: number
-    startTime: `${number}:${number}:${number}`
-    endTime: `${number}:${number}:${number}`
+    startTime: TimeString
+    endTime: TimeString
+  }
+
+  interface IDateStatus {
+    campus: Campus["name"]
+    title: string
+    date: DateString
+    capacity: number
+    startTime: TimeString
+    endTime: TimeString
   }
 
   // /api/users
