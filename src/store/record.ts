@@ -35,8 +35,8 @@ const filter = (record: API.Record, filters: typeof store.filters) => {
   let result = true
   for (const key in filters) {
     const filterList = filters[key]
-    result &&= filterList.reduce<boolean>((pre, f) => f.filter(record) && pre, true)
-    console.debug('filter: ', filterList, result)
+    const res = filterList.reduce<boolean>((pre, f) => f.filter(record) || pre, false)
+    result &&= res
   }
   return result
 }

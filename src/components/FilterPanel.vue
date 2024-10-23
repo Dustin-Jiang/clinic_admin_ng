@@ -4,8 +4,8 @@
     <n-select v-model:value="campus" :options="campusList" />
   </n-form-item>
   <n-form-item label="时间">
-    <n-checkbox-group v-model:value="date" style="width: 100%">
-      <n-checkbox value="all" label="全部" />
+    <n-checkbox v-model:checked="dateAll" label="全部" style="flex-shrink: 0" />
+    <n-checkbox-group v-model:value="date" style="width: 100%" :disabled="dateAll">
       <n-checkbox value="today" label="今天" />
       <n-checkbox value="past" label="之前" />
       <n-checkbox value="future" label="以后" />
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import store from "@/store";
 import type API from "@/store/api";
-import { onMounted, ref } from "vue"
+import { onMounted, ref, watchEffect } from "vue"
 
 const emit = defineEmits(["close"])
 
@@ -39,12 +39,14 @@ const campusList = ref<{
   value: "all"
 }])
 
-type FilterDates = "all" | "today" | "past" | "future"
-const date = ref<FilterDates[]>(["all"])
+type FilterDates = "today" | "past" | "future"
+const date = ref<FilterDates[]>(["today", "past", "future"])
+const dateAll = ref<boolean>(true)
 
 onMounted(() => {
   campus.value = store.filters["campus"] ? store.filters["campus"][0].value : "all"
-  date.value = store.filters["date"] ? store.filters["date"].map((filter) => filter.value) as FilterDates[] : ["all"]
+  date.value = store.filters["date"] ? store.filters["date"].map((filter) => filter.value) as FilterDates[] : ["today", "past", "future"]
+  dateAll.value = date.value.length === 3
 
   console.debug("filterPanel: ", campus.value)
 
@@ -52,6 +54,12 @@ onMounted(() => {
     label: campus.name,
     value: campus.name
   }))
+})
+
+watchEffect(() => {
+  if (dateAll.value) {
+    date.value = ["today", "past", "future"]
+  }
 })
 
 const generateFilters = () => {
@@ -71,11 +79,11 @@ const generateFilters = () => {
     })
   }
 
-  date.value.forEach((date) => {
+  date.value.forEach((d) => {
     if (!filters["date"]) filters["date"] = []
     let now = (new Date()).toISOString().slice(0, 10)
     let filter = ref<(args: any) => boolean>();
-    switch (date) {
+    switch (d) {
       case "today":
         filter.value = (ele) => ele.appointment_time === now;
         break;
@@ -85,11 +93,9 @@ const generateFilters = () => {
       case "past":
         filter.value = (ele) => ele.appointment_time < now;
         break;
-      case "all":
-        filter.value = (ele) => true
     }
     filters["date"].push({
-      value: date,
+      value: d,
       filter: filter.value
     })
   })
