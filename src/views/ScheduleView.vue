@@ -7,7 +7,7 @@
       <div v-if="Object.keys(dateGroup.groups).length > 0">
         <n-tabs v-for="(list, idx) in dateGroup" :key="idx" animated>
           <n-tab-pane v-for="(items, date) in list" :name="date" :tab="date" :key="date">
-            <n-grid cols="1 400:2" :x-gap="8" :y-gap="8">
+            <n-grid cols="1 600:2" :x-gap="8" :y-gap="8">
               <n-grid-item v-for="item in items" :key="item.url">
                 <n-card>
                   <n-thing :title="item.campus" :title-extra="item.title"
