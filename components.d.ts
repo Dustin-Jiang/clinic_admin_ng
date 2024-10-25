@@ -42,6 +42,8 @@ declare module 'vue' {
     NListItemContent: typeof import('naive-ui')['NListItemContent']
     NListItemTitle: typeof import('naive-ui')['NListItemTitle']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
+    NModal: typeof import('naive-ui')['NModal']
+    NModalProvider: typeof import('naive-ui')['NModalProvider']
     NPopconfirm: typeof import('naive-ui')['NPopconfirm']
     NPopover: typeof import('naive-ui')['NPopover']
     NRadio: typeof import('naive-ui')['NRadio']

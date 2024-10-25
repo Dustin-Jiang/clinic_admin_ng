@@ -11,7 +11,23 @@
             </template>
             <template v-if="filterCount === 0">添加任务</template>
           </n-button>
-          <n-popover :show="filterPanelShow" placement="bottom-end" trigger="click" style="width: 300px" title="筛选">
+
+          <n-modal v-if="isPopup" :show="filterPopupShow">
+            <n-card>
+              <FilterPanel @close="() => {
+                  filterPopupShow = false
+                }" />
+            </n-card>
+          </n-modal>
+          <n-button v-if="isPopup" :type="filterCount > 0 ? 'info' : 'default'"
+            :style="(filterCount > 0 ? 'flex-shrink: 1; width: 100%; transition-duration: 0.267s;' : 'transition-duration: 0.267s;')"
+            size="large" @click="() => filterPopupShow = true">
+            <template #icon>
+              <FilterListFilled />
+            </template>
+            <template v-if="filterCount > 0">筛选</template>
+          </n-button>
+          <n-popover v-else :show="filterPanelShow" placement="bottom-end" trigger="click" style="width: 300px" title="筛选">
             <FilterPanel @close="() => {
                 filterPanelShow = false
               }" />
@@ -52,7 +68,7 @@ import { useRouter } from "vue-router"
 import type API from "@/store/api";
 import { load, visibility } from "@/store/record"
 import store from "@/store"
-import { lt800px as isShrink } from "@/utils/Responsive"
+import { lt800px as isShrink, lt600px as isPopup } from "@/utils/Responsive"
 import AddFilled from "@vicons/material/AddFilled"
 import FilterListFilled from "@vicons/material/FilterListFilled"
 
@@ -99,6 +115,13 @@ const showRecord = (record: API.Record) => {
   if (isShrink.value) store.isDrawerOpen = false
 }
 
+watch(isShrink, (prev) => {
+  if (prev !== isShrink.value) {
+    filterPanelShow.value = filterPopupShow.value = false;
+  }
+  return isShrink.value;
+})
+
 watch(() => store.filters, () => {
   console.debug("filters: ", store.filters)
 })
@@ -107,6 +130,7 @@ watch(() => store.records, () => {
 }, { deep: true })
 
 const filterPanelShow = ref(false)
+const filterPopupShow = ref(false)
 const filterCount = computed(() => Object.keys(store.filters).length)
 const recordCount = computed(() => Object.keys(store.records).length)
 const records = computed(() => Object.keys(store.records).reverse().map((key) => store.records[parseInt(key)]))
