@@ -237,7 +237,7 @@ const revertRecord = (id: number) => {
   }
   const last = history.pop()!
   update(last).then(() => {
-    message.success('Yesterday once more! ')
+    message.success('Back to Future')
     store.records[id] = last
   }).catch(() => {
     message.error('时间机器坏了qwq')
