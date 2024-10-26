@@ -5,7 +5,7 @@
     <n-grid-item>
       <n-thing>
         <template #header>处理人员</template>
-        <n-skeleton text width="100px" v-if="!worker?.realname" />
+        <n-skeleton text width="100px" v-if="!props.worker?.realname" />
         {{ worker?.realname ?? "" }}
       </n-thing>
     </n-grid-item>

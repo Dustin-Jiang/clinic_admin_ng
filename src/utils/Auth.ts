@@ -17,7 +17,7 @@ class AuthBase {
     this.auth().then((userInfo) => {
       this.isLogin.value = true
       this.user.value = userInfo
-    }).catch((e) => {
+    }).catch(() => {
       this.isLogin.value = false
       this.user.value = null
     })

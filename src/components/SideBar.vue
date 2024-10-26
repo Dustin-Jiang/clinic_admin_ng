@@ -12,7 +12,7 @@ import store from '@/store';
 import { watch, onMounted } from "vue";
 
 onMounted(() => { store.isDrawerOpen = !isShrink.value })
-watch(isShrink, (prev) => {
+watch(isShrink, () => {
   store.isDrawerOpen = !isShrink.value
   console.debug(store.isDrawerOpen)
 })

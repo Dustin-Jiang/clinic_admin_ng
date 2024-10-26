@@ -1,7 +1,7 @@
 <template>
   <n-h1 type="primary" style="position: relative; left: -24px; margin: unset">
     <n-text type="primary" style="display: inline-block; width: 24px;">#</n-text>
-    <n-text>{{ record?.id }}</n-text>
+    <n-text>{{ props.record?.id }}</n-text>
   </n-h1>
   <StatusBadge :status="record?.status" />
 

@@ -117,7 +117,7 @@ type CascaderOption = {
   children?: CascaderOption[]
 }
 
-const optionFilter = (pattern: string, option: CascaderOption, path: CascaderOption[]) => {
+const optionFilter = (pattern: string, option: CascaderOption) => {
   return option.label.toLowerCase().includes(pattern.toLowerCase())
 }
 </script>

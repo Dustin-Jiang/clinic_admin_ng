@@ -1,7 +1,7 @@
 import { ref, watch } from "vue";
 import { useWindowSize } from "@vueuse/core";
 
-const { width, height } = useWindowSize();
+const { width } = useWindowSize();
 
 const lt600px = ref(width.value < 600);
 const lt800px = ref(width.value < 800);
