@@ -1,51 +1,46 @@
 <template>
-    <n-element style="padding: 12px 48px 48px; max-width: 1600px; margin: 0 auto;">
-      <n-h1 prefix="bar" align-text style="margin-top: 0.5rem">
-        服务时间管理
-      </n-h1>
-
-      <div v-if="Object.keys(dateGroup.groups).length > 0">
-        <n-tabs v-for="(list, idx) in dateGroup" :key="idx" animated>
-          <n-tab-pane v-for="(items, date) in list" :name="date" :tab="date" :key="date">
-            <n-grid cols="1 600:2" :x-gap="8" :y-gap="8">
-              <n-grid-item v-for="item in items" :key="item.url">
-                <n-card>
-                  <n-thing :title="item.campus" :title-extra="item.title"
-                    :description="`${item.startTime} - ${item.endTime}`">
-                    <n-space justify="space-between">
-                      <n-space>
-                        <n-button size="small" secondary>
-                          {{ `已预约 ${item.count} / ${item.capacity}` }}
-                        </n-button>
-                        <n-button size="small" secondary>
-                          {{ `已完成 ${item.finish} / ${item.capacity}` }}
-                        </n-button>
-                      </n-space>
-                      <n-dropdown trigger="hover" :options="options" @select="(key: string) => handleSelect(key, item)">
-                        <n-button size="small">
-                          操作
-                        </n-button>
-                      </n-dropdown>
+  <PageWrapper title="服务时间管理">
+    <div v-if="Object.keys(dateGroup.groups).length > 0">
+      <n-tabs v-for="(list, idx) in dateGroup" :key="idx" animated>
+        <n-tab-pane v-for="(items, date) in list" :name="date" :tab="date" :key="date">
+          <n-grid cols="1 600:2" :x-gap="8" :y-gap="8">
+            <n-grid-item v-for="item in items" :key="item.url">
+              <n-card>
+                <n-thing :title="item.campus" :title-extra="item.title"
+                  :description="`${item.startTime} - ${item.endTime}`">
+                  <n-space justify="space-between">
+                    <n-space>
+                      <n-button size="small" secondary>
+                        {{ `已预约 ${item.count} / ${item.capacity}` }}
+                      </n-button>
+                      <n-button size="small" secondary>
+                        {{ `已完成 ${item.finish} / ${item.capacity}` }}
+                      </n-button>
                     </n-space>
-                  </n-thing>
-                </n-card>
-              </n-grid-item>
-            </n-grid>
-          </n-tab-pane>
-        </n-tabs>
-      </div>
-      <n-empty v-else />
-    </n-element>
-
-    <n-float-button :right="16" :bottom="24" type="primary" :width="144" :height="56"
-      @click="() => router.push('/schedule/add')">
-      <div style="display: flex; gap: 8px; flex-direction: row; align-items: center; justify-content: center; ">
-        <n-icon :size="24">
-          <playlist-add-filled />
-        </n-icon>
-        <span style="font-size: 0.8rem;">新建服务时间</span>
-      </div>
-    </n-float-button>
+                    <n-dropdown trigger="hover" :options="options" @select="(key: string) => handleSelect(key, item)">
+                      <n-button size="small">
+                        操作
+                      </n-button>
+                    </n-dropdown>
+                  </n-space>
+                </n-thing>
+              </n-card>
+            </n-grid-item>
+          </n-grid>
+        </n-tab-pane>
+      </n-tabs>
+    </div>
+    <n-empty v-else />
+  </PageWrapper>
+  <n-float-button :right="16" :bottom="24" type="primary" :width="144" :height="56"
+    @click="() => router.push('/schedule/add')">
+    <div style="display: flex; gap: 8px; flex-direction: row; align-items: center; justify-content: center; ">
+      <n-icon :size="24">
+        <playlist-add-filled />
+      </n-icon>
+      <span style="font-size: 0.8rem;">新建服务时间</span>
+    </div>
+  </n-float-button>
 </template>
 
 <script lang="ts" setup>
@@ -60,6 +55,7 @@ import { useRouter } from 'vue-router';
 import EditFilled from '@vicons/material/EditFilled';
 import DeleteFilled from '@vicons/material/DeleteFilled';
 import ClearFilled from '@vicons/material/ClearFilled';
+import PageWrapper from '@/components/PageWrapper.vue';
 
 const router = useRouter();
 
@@ -123,7 +119,7 @@ const handleSelect = (key: string, item: API.DateStatus) => {
         Api.delete(`${item.url.replace(/.*\/api/g, '/api')}`);
         message.success('确定')
       },
-      onNegativeClick: () => {}
+      onNegativeClick: () => { }
     })
   }
   if (key === "clear") {
@@ -136,7 +132,7 @@ const handleSelect = (key: string, item: API.DateStatus) => {
         Api.get(`${item.url.replace(/.*\/api/g, '/api')}cancel_all/`);
         message.success('确定')
       },
-      onNegativeClick: () => {}
+      onNegativeClick: () => { }
     })
   }
   if (key === "edit") {

@@ -60,6 +60,7 @@ declare module 'vue' {
     NText: typeof import('naive-ui')['NText']
     NThing: typeof import('naive-ui')['NThing']
     NTimePicker: typeof import('naive-ui')['NTimePicker']
+    PageWrapper: typeof import('./src/components/PageWrapper.vue')['default']
     RecordInfo: typeof import('./src/components/RecordInfo.vue')['default']
     RecordItem: typeof import('./src/components/RecordItem.vue')['default']
     RepairComment: typeof import('./src/components/RepairComment.vue')['default']

@@ -1,9 +1,5 @@
 <template>
-  <n-element style="padding: 12px 48px 48px; max-width: 1600px; margin: 0 auto;">
-    <n-h1 prefix="bar" align-text style="margin-top: 0.5rem">
-      编辑服务时间
-    </n-h1>
-
+  <PageWrapper title="编辑服务时间">
     <n-form :model="formValue" :rules="formRule" ref="formRef">
       <n-grid cols="18 800:22" :x-gap="22">
         <n-form-item-gi :span="8" label="服务描述" path="description">
@@ -28,13 +24,10 @@
         </n-form-item-gi>
       </n-grid>
       <n-form-item>
-        <n-space>
-          <n-button type="primary" @click="handleSubmit" style="width: 150px" :loading="loading">提交</n-button>
-          <n-button @click="() => router.back()">返回</n-button>
-        </n-space>
+        <n-button type="primary" @click="handleSubmit" style="width: 150px" :loading="loading">提交</n-button>
       </n-form-item>
     </n-form>
-  </n-element>
+  </PageWrapper>
 </template>
 
 <script lang="ts" setup>
@@ -130,6 +123,8 @@ const formRule = {
   }
 }
 
+const schedule = ref<API.DateStatus>();
+
 onMounted(async () => {
   if (!store.campusList.length) {
     await load();
@@ -140,6 +135,7 @@ onMounted(async () => {
   console.debug("datesUnavailable", datesUnavailable.value);
   for (const date of store.dateList) {
     if (date.url.split("/").slice(-2)[0] === props.dateId) {
+      schedule.value = date;
       formValue.value = {
         description: date.title,
         campus: date.campus,
@@ -159,7 +155,9 @@ const handleSubmit = () => {
     if (valid) {
       if (!formValue.value) return;
 
-      const status = {
+      const status: API.DateStatus = {
+        ...schedule.value!,
+        date: toDate(formValue.value.date),
         campus: formValue.value.campus!,
         capacity: formValue.value.capacity,
         startTime: toTime(formValue.value.startTime),

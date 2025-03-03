@@ -1,9 +1,5 @@
 <template>
-  <n-element style="padding: 12px 48px 48px; max-width: 1600px; margin: 0 auto;">
-    <n-h1 prefix="bar" align-text style="margin-top: 0.5rem">
-      新建服务时间
-    </n-h1>
-
+  <PageWrapper title="新建服务时间">
     <n-form :model="formValue" :rules="formRule" ref="formRef">
       <n-grid cols="18 800:22" :x-gap="22">
         <n-form-item-gi :span="8" label="服务描述" path="description">
@@ -40,7 +36,7 @@
         </n-space>
       </n-form-item>
     </n-form>
-  </n-element>
+  </PageWrapper>
 </template>
 
 <script lang="ts" setup>
@@ -52,6 +48,7 @@ import type API from "@/store/api";
 import Api from "@/utils/Api";
 import { useMessage } from 'naive-ui';
 import Auth from "@/utils/Auth";
+import PageWrapper from '@/components/PageWrapper.vue';
 
 const router = useRouter();
 const message = useMessage();
