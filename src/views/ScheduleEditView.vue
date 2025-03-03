@@ -34,7 +34,6 @@
 import { ref, computed, onMounted } from 'vue';
 import store, { load } from "@/store";
 import type { FormInst } from "naive-ui";
-import { useRouter } from 'vue-router';
 import type API from "@/store/api";
 import Api from "@/utils/Api";
 import { useMessage } from 'naive-ui';
@@ -47,7 +46,6 @@ const props = defineProps({
   }
 })
 
-const router = useRouter();
 const message = useMessage();
 const loading = ref<boolean>(false)
 
