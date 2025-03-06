@@ -61,6 +61,15 @@
           </template>
           已解决
         </n-button>
+        
+        <n-button style="width: 150px" :disabled="loading !== null" :loading="loading === 'goToOEM'"
+          @click="() => handleAppointmentGoToOEM(record!)">
+          <template #icon>
+            <FactoryFilled />
+          </template>
+          建议返厂
+        </n-button>
+        
         <ChangeCampus :record="record" :loading="loading" :campusList="campusList"
           :handleCommit="handleAppointmentChangeCampus" />
       </n-space>
@@ -88,6 +97,7 @@ import { RecordStatus } from '@/utils/constants';
 import DoneFilled from "@vicons/material/DoneFilled";
 import PersonOffFilled from "@vicons/material/PersonOffFilled";
 import HistoryFilled from "@vicons/material/HistoryFilled";
+import FactoryFilled from "@vicons/material/FactoryFilled";
 import { useMessage } from 'naive-ui';
 import { computed, onUpdated, ref, toRaw } from 'vue';
 
@@ -101,7 +111,7 @@ const message = useMessage()
 const confirmation = ref<RecordStatus>(RecordStatus.APPOINTMENT_CONFIRMED)
 const isConfirmed = computed(() => confirmation.value === RecordStatus.APPOINTMENT_CONFIRMED)
 const rejectReason = ref("")
-const loading = ref<null | "arrive" | "whereRU" | "changeCampus" | "resolve">(null)
+const loading = ref<null | "arrive" | "whereRU" | "changeCampus" | "resolve" | "goToOEM">(null)
 const repairComment = ref({
   validate: false,
   value: "",
@@ -164,6 +174,17 @@ const handleAppointmentMissing = (record: API.Record) => {
   updated = {
     ...updated!,
     status: RecordStatus.WHERE_ARE_YOU,
+    worker: Auth.user.value!.url
+  }
+  updateRecord(updated, record)
+}
+
+const handleAppointmentGoToOEM = (record: API.Record) => {
+  loading.value = 'goToOEM'
+  let updated = toRaw(record!)
+  updated = {
+    ...updated!,
+    status: RecordStatus.GO_TO_OEM,
     worker: Auth.user.value!.url
   }
   updateRecord(updated, record)

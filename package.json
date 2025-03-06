@@ -13,6 +13,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@milkdown/kit": "^7.6.3",
+    "@milkdown/vue": "^7.6.3",
     "@tsconfig/node18": "^18.2.4",
     "@vicons/material": "^0.12.0",
     "@vueuse/core": "^10.11.0",

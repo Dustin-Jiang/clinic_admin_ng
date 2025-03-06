@@ -22,24 +22,24 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': {
-        target: 'https://clinic.bitnp.net',
-        changeOrigin: true,
-        configure: (proxy) => {
-          proxy.on("proxyReq", (proxyReq) => {
-            proxyReq.setHeader("origin", "https://clinic.bitnp.net")
-          })
-        }
-      }
       // '/api': {
-      //   target: 'http://127.0.0.1:5000',
+      //   target: 'https://clinic.bitnp.net',
       //   changeOrigin: true,
       //   configure: (proxy) => {
       //     proxy.on("proxyReq", (proxyReq) => {
-      //       proxyReq.setHeader("origin", "http://127.0.0.1:5000")
+      //       proxyReq.setHeader("origin", "https://clinic.bitnp.net")
       //     })
       //   }
       // }
+      '/api': {
+        target: 'http://127.0.0.1:5000',
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on("proxyReq", (proxyReq) => {
+            proxyReq.setHeader("origin", "http://127.0.0.1:5000")
+          })
+        }
+      }
     }
   }
 })

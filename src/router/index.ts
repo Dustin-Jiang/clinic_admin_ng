@@ -30,6 +30,17 @@ const router = createRouter({
       name: "scheduleDate",
       props: true,
       component: () => import("@/views/ScheduleEditView.vue")
+    },
+    {
+      path: '/announcement',
+      name: "Announcements",
+      component: () => import("@/views/AnnouncementView.vue")
+    },
+    {
+      path: '/announcement/edit/:announcementId',
+      name: "AnnouncementEdit",
+      props: true,
+      component: () => import("@/views/AnnouncementEditView.vue")
     }
   ]
 })

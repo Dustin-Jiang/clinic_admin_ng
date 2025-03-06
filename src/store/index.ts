@@ -20,7 +20,8 @@ const store = reactive({
   dateList: [] as API.DateStatus[],
   repairMethods: [] as API.RecordDesc[],
   probDescs: [] as API.RecordDesc[],
-  history: new Map<API.Record['id'], API.Record[]>()
+  history: new Map<API.Record['id'], API.Record[]>(),
+  announcementList: [] as API.IAnnouncement[],
 })
 
 const load = async () => {
@@ -31,6 +32,9 @@ const load = async () => {
 
   const dates = (await Api.get<API.DateStatus[]>('/api/date/')).data
   store.dateList = dates
+
+  const annoucements = (await Api.get<API.IAnnouncement[]>('/api/announcement/')).data
+  store.announcementList = annoucements
 
   console.debug("storeLoad: ", repairMethods)
   store.repairMethods = repairMethods

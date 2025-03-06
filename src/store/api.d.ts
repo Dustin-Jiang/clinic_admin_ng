@@ -101,6 +101,23 @@ namespace API {
     value: string,
     children?: RecordDesc[]
   }
+
+  interface IAnnouncement {
+    url: Url
+
+    title: string
+    content: string
+    brief: string
+
+    priority: number
+    tag: AnnouncementTags
+
+    createdTime: string
+    lastEditedTime: string
+    expireDate: DateString
+  }
+
+  type AnnouncementTags = "TOS" | "TA" | "AN"
 }
 
 export default API

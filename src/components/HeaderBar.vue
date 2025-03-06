@@ -33,6 +33,19 @@
           </n-popover>
           <n-popover trigger="hover">
             <template #trigger>
+              <n-button circle quaternary style="--n-width: 48px; --n-height: 48px; --n-icon-size: 24px;"
+                @click="router.push('/announcement')">
+                <template #icon>
+                  <n-icon>
+                    <EditNotificationsFilled />
+                  </n-icon>
+                </template>
+              </n-button>
+            </template>
+            <span>编辑公告</span>
+          </n-popover>
+          <n-popover trigger="hover">
+            <template #trigger>
               <n-popconfirm>
                 <template #trigger>
                   <n-button>
@@ -95,6 +108,7 @@ import Auth from "@/utils/Auth"
 import FlexAside from "@/components/FlexAside.vue"
 import { useRouter } from "vue-router"
 import EditCalendarFilled from "@vicons/material/EditCalendarFilled"
+import EditNotificationsFilled from "@vicons/material/EditNotificationsFilled"
 
 const router = useRouter()
 

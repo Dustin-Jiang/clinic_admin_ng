@@ -36,7 +36,7 @@
     @click="() => router.push('/schedule/add')">
     <div style="display: flex; gap: 8px; flex-direction: row; align-items: center; justify-content: center; ">
       <n-icon :size="24">
-        <playlist-add-filled />
+        <PlaylistAddFilled />
       </n-icon>
       <span style="font-size: 0.8rem;">新建服务时间</span>
     </div>
