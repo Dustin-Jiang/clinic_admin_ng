@@ -5,7 +5,7 @@
         expand-trigger="hover" :show-path="true" :cascade="false"
         :options="options" placeholder="可多选, 输入以筛选" v-model:value="model.selection"
         :filter="(pattern: string, option: CascaderOption, path: CascaderOption[]) => 
-          optionFilter(pattern, option, path)" />
+          optionFilter(pattern, option)" />
     </n-form-item>
     <n-collapse-transition :show="isOtherSelected">
       <n-form-item :label="'其他' + label" path="detail">
