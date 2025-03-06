@@ -39,6 +39,15 @@ export default defineConfig({
             proxyReq.setHeader("origin", "http://127.0.0.1:5000")
           })
         }
+      },
+      '/manage': {
+        target: 'https://clinic.bitnp.net',
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on("proxyReq", (proxyReq) => {
+            proxyReq.setHeader("origin", "https://clinic.bitnp.net")
+          })
+        }
       }
     }
   }

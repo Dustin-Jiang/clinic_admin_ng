@@ -24,6 +24,7 @@ class AuthBase {
   }
 
   async auth(): Promise<API.IUsers> {
+    await Api.get<void>(`/manage/`)
     return (await Api.get<API.IUsers>(`/api/user/`)).data
   }
 
