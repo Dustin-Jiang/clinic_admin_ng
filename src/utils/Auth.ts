@@ -26,13 +26,14 @@ class AuthBase {
   }
 
   async login() {
-    const req = await Api.get<null>('/auth/')
-    if (req.status === 200) {
+    try {
+      await Api.get<null>('/auth/')
       this.isLogin.value = true
-      return
     }
-    this.isLogin.value = false
-    window.location.href = '/auth/'
+    catch (e) {
+      this.isLogin.value = false
+      window.location.href = '/auth/'
+    }
   }
 
   async auth(): Promise<API.IUsers> {
