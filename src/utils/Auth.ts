@@ -11,9 +11,9 @@ class AuthBase {
   user: Ref<API.IUsers | null>;
 
   constructor() {
-    this.isLogin = ref(true)
+    this.isLogin = ref(false)
     this.user = ref(null)
-
+    
     this.login().then(() => {
       this.auth().then((userInfo) => {
         this.isLogin.value = true
@@ -23,6 +23,19 @@ class AuthBase {
         this.user.value = null
       })
     })
+  }
+
+  ready() {
+    return new Promise<void>((resolve) => {
+      const checkLogin = () => {
+        if (this.isLogin.value) {
+          resolve();
+        } else {
+          setTimeout(checkLogin, 100);
+        }
+      };
+      checkLogin();
+    });
   }
 
   async login() {

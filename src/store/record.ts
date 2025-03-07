@@ -2,10 +2,12 @@ import { computed, ref } from "vue";
 import type API from "./api";
 import Api from "@/utils/Api";
 import store from ".";
+import Auth from "@/utils/Auth";
 
 const nextRecordsPage = ref(1)
 
 const load = async () => {
+  await Auth.ready()
   const page = nextRecordsPage.value
   nextRecordsPage.value += 1
   const response = (await Api.get<API.IRecords>(`/api/records/?page=${page}`)).data
