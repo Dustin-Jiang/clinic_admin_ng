@@ -95,6 +95,12 @@
   box-shadow: var(--box-shadow-1);
 }
 
+@media screen and (max-width: 600px) {
+  .headerBar {
+    padding: 8px 16px;
+  }
+}
+
 .headerBar>div {
   display: flex;
   align-items: center;

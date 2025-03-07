@@ -1,5 +1,5 @@
 <template>
-  <n-element style="padding: 12px 48px 48px; max-width: 1600px; margin: 0 auto;">
+  <n-element class="page-wrapper">
     <n-button text @click="() => goBack()" :disabled="!canBack">
       <template #icon>
         <ArrowBackFilled />
@@ -33,3 +33,17 @@ const goBack = () => {
   if (canBack.value) router.back()
 }
 </script>
+
+<style scoped>
+.page-wrapper {
+  padding: 12px 48px 48px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 600px) {
+  .page-wrapper {
+    padding: 12px 36px 36px;
+  }
+}
+</style>

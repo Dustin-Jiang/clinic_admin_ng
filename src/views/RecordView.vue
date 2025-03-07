@@ -1,5 +1,5 @@
 <template>
-  <n-element style="padding: 12px 48px 48px; max-width: 1600px; margin: 0 auto;">
+  <n-element class="page-wrapper">
     <n-grid cols="1 l:2" responsive="screen" x-gap="48" y-gap="0">
       <n-grid-item>
         <RecordInfo :record="record" :owner="owner" />
@@ -120,3 +120,17 @@ const isNextRecord = computed(() => {
   return isNextRecordExist(currentId.value)
 })
 </script>
+
+<style scoped>
+.page-wrapper {
+  padding: 12px 48px 48px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 600px) {
+  .page-wrapper {
+    padding: 12px 36px 36px;
+  }
+}
+</style>
