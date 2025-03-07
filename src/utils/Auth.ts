@@ -14,17 +14,28 @@ class AuthBase {
     this.isLogin = ref(true)
     this.user = ref(null)
 
-    this.auth().then((userInfo) => {
-      this.isLogin.value = true
-      this.user.value = userInfo
-    }).catch(() => {
-      this.isLogin.value = false
-      this.user.value = null
+    this.login().then(() => {
+      this.auth().then((userInfo) => {
+        this.isLogin.value = true
+        this.user.value = userInfo
+      }).catch(() => {
+        this.isLogin.value = false
+        this.user.value = null
+      })
     })
   }
 
+  async login() {
+    const req = await Api.get<null>('/auth/')
+    if (req.status === 200) {
+      this.isLogin.value = true
+      return
+    }
+    this.isLogin.value = false
+    window.location.href = '/auth/'
+  }
+
   async auth(): Promise<API.IUsers> {
-    await Api.get<void>(`/manage/`)
     return (await Api.get<API.IUsers>(`/api/user/`)).data
   }
 
