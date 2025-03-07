@@ -2,13 +2,13 @@
   <n-config-provider :theme="theme">
     <n-modal-provider>
       <n-dialog-provider>
-        <HeaderBar title="BITNP 电脑诊所">
-          <n-message-provider>
+        <n-message-provider>
+          <HeaderBar title="BITNP 电脑诊所">
             <MainView>
               <RouterView />
             </MainView>
-          </n-message-provider>
-        </HeaderBar>
+          </HeaderBar>
+        </n-message-provider>
       </n-dialog-provider>
     </n-modal-provider>
   </n-config-provider>

@@ -17,7 +17,7 @@
         </n-space>
       </template>
       <template #right v-if="!props.disabled">
-        <n-space :align="'center'">
+        <n-space :align="'center'" v-if="!lt600px">
           <n-popover trigger="hover">
             <template #trigger>
               <n-button circle quaternary style="--n-width: 48px; --n-height: 48px; --n-icon-size: 24px;"
@@ -63,6 +63,16 @@
             <span>退出登录</span>
           </n-popover>
         </n-space>
+
+        <n-dropdown v-else trigger="click" :options="menu" show-arrow @select="handleMenuClick" size="large">
+          <n-button circle quaternary style="--n-width: 48px; --n-height: 48px; --n-icon-size: 24px;">
+            <template #icon>
+              <n-icon>
+                <MoreVertFilled />
+              </n-icon>
+            </template>
+          </n-button>
+        </n-dropdown>
       </template>
     </FlexAside>
   </n-element>
@@ -109,8 +119,47 @@ import FlexAside from "@/components/FlexAside.vue"
 import { useRouter } from "vue-router"
 import EditCalendarFilled from "@vicons/material/EditCalendarFilled"
 import EditNotificationsFilled from "@vicons/material/EditNotificationsFilled"
+import MoreVertFilled from "@vicons/material/MoreVertFilled"
+import LogOutFilled from "@vicons/material/LogOutFilled"
+import { lt600px } from "@/utils/Responsive";
+import { h, type Component } from "vue";
+import { NIcon, useMessage } from "naive-ui";
 
 const router = useRouter()
+const message = useMessage()
+
+const renderIcon = (icon: Component) => {
+  return () => h(NIcon, null, { default: () => h(icon) })
+}
+
+const menu = [
+  {
+    title: "编辑时间",
+    key: "schedule",
+    icon: renderIcon(EditCalendarFilled),
+    onClick: () => router.push("/schedule")
+  },
+  {
+    title: "编辑公告",
+    key: "announcement",
+    icon: renderIcon(EditNotificationsFilled),
+    onClick: () => router.push("/announcement")
+  },
+  {
+    title: "退出登录",
+    key: "logout",
+    icon: renderIcon(LogOutFilled),
+    onClick: () => { message.error("还没做好qaq") }
+  }
+]
+
+const handleMenuClick = (key: string) => {
+  console.debug(key)
+  const item = menu.find(item => item.key === key)
+  if (item) {
+    item.onClick()
+  }
+}
 
 const openDrawer = () => {
   store.isDrawerOpen = !store.isDrawerOpen
